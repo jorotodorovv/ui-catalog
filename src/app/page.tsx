@@ -35,7 +35,7 @@ export default function CatalogPage() {
   const hooksCount = CATALOG_ITEMS.filter((i) => i.category === "hooks").length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <CatalogHeader />
       <CatalogHero />
       <CatalogToolbar
@@ -48,7 +48,7 @@ export default function CatalogPage() {
         componentsCount={componentsCount}
         hooksCount={hooksCount}
       />
-      <main className="max-w-7xl mx-auto px-6 py-10 flex-1 w-full space-y-10">
+      <main className="max-w-7xl mx-auto px-6 py-6 pb-16 flex-1 w-full">
         <CatalogGrid
           items={filteredItems}
           searchQuery={searchQuery}
