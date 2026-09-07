@@ -42,11 +42,9 @@ const ITEM_VISUAL_CONFIGS: Record<string, ItemVisualConfig> = {
   },
   "interactive-image": {
     icon: ImageIcon,
-    fullWidth: true,
   },
   "use-scroll-direction": {
     icon: ArrowUpDown,
-    fullWidth: true,
   },
 };
 
@@ -56,22 +54,19 @@ const ITEM_VISUAL_CONFIGS: Record<string, ItemVisualConfig> = {
  */
 export const CATALOG_ITEMS: CatalogItem[] = registryData.items.map((item) => {
   const visualConfig = ITEM_VISUAL_CONFIGS[item.name] ?? { icon: Code2 };
-  const allDependencies = [
-    ...(item.dependencies ?? []),
-    ...(item.registryDependencies ?? []),
-  ];
+  const allDependencies = item.dependencies ?? [];
 
   return {
     id: item.name,
-    name: item.title ?? item.name,
-    type: item.type as "registry:component" | "registry:hook",
+    name: item.title,
+    type: item.type as CatalogItem["type"],
     category: item.type === "registry:hook" ? "hooks" : "components",
     icon: visualConfig.icon,
-    description: item.description ?? "",
-    cli: `npx shadcn add @${registryData.name}/${item.name}`,
+    description: item.description,
+    cli: `npx shadcn@latest add @joro/${item.name}`,
     json: `/r/${item.name}.json`,
-    dependencies: allDependencies,
-    fullWidth: visualConfig.fullWidth,
+    dependencies: Array.from(new Set(allDependencies)),
+    fullWidth: visualConfig.fullWidth ?? false,
   };
 });
 
