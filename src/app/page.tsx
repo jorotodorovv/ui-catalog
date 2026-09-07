@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/custom/theme-toggle";
+import { ThemeToggle } from "@/registry/theme-toggle";
 import { CopyButton } from "@/components/copy-button";
 import { Sparkles, Terminal, ExternalLink } from "lucide-react";
 

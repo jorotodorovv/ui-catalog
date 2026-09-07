@@ -41,7 +41,6 @@ All files belonging to the component (UI, companion hook, barrel export, styles)
    - Barrel export: `<ui-catalog-root>/registry/<component-name>/index.ts` (re-exporting component and hooks)
    - Custom CSS (if any): `<ui-catalog-root>/registry/<component-name>/styles.css`
 2. **Normalize Imports**: Ensure the component imports its companion hook relatively (e.g. `import { use... } from './use-...'`), ensuring zero path alias breakage across different projects.
-3. Mirror to `<ui-catalog-root>/src/components/ui/custom/<component-name>/` so the catalog preview site can render it live.
 
 ### Step 3: Update `registry.json`
 Read `<ui-catalog-root>/registry.json` and append the new item into the `items` array. Map `target` to a matching self-contained folder so consumer projects receive everything in one clean directory:
