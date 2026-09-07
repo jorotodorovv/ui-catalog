@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-scroll-direction",
+  "type": "registry:hook",
+  "title": "useScrollDirection",
+  "description": "Smart vertical scroll direction hook with thresholding and bounce protection for auto-hiding navigation bars.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/use-scroll-direction/use-scroll-direction.ts",
+      "type": "registry:hook",
+      "target": "hooks/use-scroll-direction.ts",
+      "content": "import { useState, useEffect, useRef } from 'react';\n\nexport interface UseScrollDirectionOptions {\n  threshold?: number;\n  axisOffset?: number;\n}\n\n/**\n * Hook to track vertical scroll direction and determine if navigation header should be visible.\n * Returns true if scrolling up or at the top of the page, and false when scrolling down.\n */\nexport function useScrollDirection(options: UseScrollDirectionOptions = {}) {\n  const { threshold = 50, axisOffset = 10 } = options;\n  const [isVisible, setIsVisible] = useState(true);\n  const lastScrollY = useRef(0);\n\n  useEffect(() => {\n    if (typeof window === 'undefined') return;\n\n    lastScrollY.current = window.scrollY;\n\n    const updateScrollDir = () => {\n      const scrollY = window.scrollY;\n\n      // Ignore elastic scrolling bounce (negative scroll positions)\n      if (scrollY < 0) {\n        return;\n      }\n\n      // Ignore small scroll shifts to avoid flickering/jittering\n      if (Math.abs(scrollY - lastScrollY.current) < axisOffset) {\n        return;\n      }\n\n      if (scrollY <= threshold) {\n        setIsVisible(true);\n      } else if (scrollY > lastScrollY.current) {\n        // Scrolling down -> hide header\n        setIsVisible(false);\n      } else {\n        // Scrolling up -> show header\n        setIsVisible(true);\n      }\n\n      lastScrollY.current = scrollY;\n    };\n\n    const handleScroll = () => {\n      updateScrollDir();\n    };\n\n    window.addEventListener('scroll', handleScroll, { passive: true });\n    return () => window.removeEventListener('scroll', handleScroll);\n  }, [threshold, axisOffset]);\n\n  return isVisible;\n}\n"
+    }
+  ]
+}

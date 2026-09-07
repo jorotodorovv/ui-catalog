@@ -93,11 +93,21 @@ In `<ui-catalog-root>/src/app/page.tsx`:
 - Add a new showcase card rendering `<YourNewComponent />`.
 - Add code viewer snippets for the component and its companion hook.
 
-### Step 6: Confirmation Output
+### Step 6: Consumer Project Migration & Cleanup (Default)
+When extracting from an active project repository:
+1. Push and ensure the catalog deployment is live on Vercel (`curl -s ...`).
+2. Run `npx shadcn add @joro-ui/<component-name>` in the consumer project.
+3. Remove the obsolete legacy file(s) from the consumer project (e.g. `rm src/components/ui/custom/<component-name>.tsx` or legacy hook file).
+4. Verify import paths resolve to the new directory barrel export (`components/ui/custom/<component-name>/index.ts`).
+5. Run TypeScript check (`tsc --noEmit`) and test suites (`vitest` / `npm test`) to guarantee zero regressions.
+
+### Step 7: Confirmation Output
 Report to the user:
 1. The component name registered (`<component-name>`).
 2. The companion files bundled (`components/ui/custom/...`, `hooks/...`).
-3. The exact command to install it in any other project:
+3. Verification of successful installation and cleanup in the consumer repository.
+4. The exact command to install it in any other project:
    ```bash
    npx shadcn add @joro-ui/<component-name>
    ```
+

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "interactive-image",
+  "type": "registry:component",
+  "title": "Interactive Image",
+  "description": "Progressive Next.js image loader with skeleton shimmer, smooth fade-in, fallback placeholder, and AI generating overlay state.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "devDependencies": [],
+  "registryDependencies": [
+    "skeleton"
+  ],
+  "files": [
+    {
+      "path": "registry/interactive-image/index.ts",
+      "type": "registry:component",
+      "target": "components/ui/custom/interactive-image/index.ts",
+      "content": "export * from \"./interactive-image\";\n"
+    },
+    {
+      "path": "registry/interactive-image/interactive-image.tsx",
+      "type": "registry:component",
+      "target": "components/ui/custom/interactive-image/interactive-image.tsx",
+      "content": "'use client';\n\nimport React, { useState, useEffect, useRef, useCallback } from 'react';\nimport Image from 'next/image';\nimport { cn } from '@/lib/utils';\nimport { Skeleton } from '@/components/ui/skeleton';\nimport { Loader2 } from 'lucide-react';\n\nexport interface InteractiveImageProps {\n  src?: string | null;\n  alt: string;\n  className?: string;\n  wrapperClassName?: string;\n  fallbackIcon?: React.ReactNode;\n  width?: number;\n  quality?: number;\n  isGenerating?: boolean;\n  priority?: boolean;\n  loading?: 'lazy' | 'eager';\n}\n\nexport function InteractiveImage({\n  src,\n  alt,\n  className,\n  wrapperClassName,\n  fallbackIcon,\n  width,\n  quality = 75,\n  isGenerating,\n  priority = false,\n}: InteractiveImageProps) {\n  const [isLoaded, setIsLoaded] = useState(false);\n  const [error, setError] = useState(false);\n  const imgRef = useRef<HTMLImageElement | null>(null);\n\n  const checkImageComplete = useCallback((img: HTMLImageElement | null) => {\n    if (img && img.complete && img.naturalWidth > 0) {\n      setIsLoaded(true);\n    }\n  }, []);\n\n  const setImgRef = useCallback((node: HTMLImageElement | null) => {\n    imgRef.current = node;\n    checkImageComplete(node);\n  }, [checkImageComplete]);\n\n  useEffect(() => {\n    setIsLoaded(false);\n    setError(false);\n\n    if (imgRef.current) {\n      checkImageComplete(imgRef.current);\n    }\n  }, [src, checkImageComplete]);\n\n  const sizes = width\n    ? `(max-width: 768px) 100vw, ${width}px`\n    : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';\n\n  // When generating, always show the generating overlay regardless of src state\n  if (isGenerating) {\n    return (\n      <div className={cn('relative w-full h-full overflow-hidden rounded-[inherit] bg-muted', wrapperClassName)}>\n        {/* Show existing image underneath if available */}\n        {src && !error && (\n          <Image\n            src={src}\n            alt={alt}\n            fill\n            sizes={sizes}\n            quality={quality}\n            unoptimized\n            className={cn('object-cover opacity-30 blur-sm scale-105', className)}\n          />\n        )}\n        <div className=\"absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm z-20 text-white\">\n          <Loader2 className=\"h-8 w-8 animate-spin text-white drop-shadow-md\" />\n          <span className=\"text-[10px] uppercase tracking-widest font-bold mt-2 text-white/90 drop-shadow-sm\">Generating...</span>\n        </div>\n      </div>\n    );\n  }\n\n  // No image and not generating — show fallback\n  if (!src || error) {\n    return (\n      <div className={cn('w-full h-full flex items-center justify-center rounded-[inherit] bg-muted text-muted-foreground/30', wrapperClassName)}>\n        {fallbackIcon}\n      </div>\n    );\n  }\n\n  return (\n    <div className={cn('relative w-full h-full overflow-hidden rounded-[inherit] bg-muted', wrapperClassName)}>\n      {/* Loading Skeleton / Shimmer */}\n      {!isLoaded && (\n        <Skeleton className=\"absolute inset-0 w-full h-full rounded-none\" />\n      )}\n\n      {/* Image with progressive loading transition */}\n      <Image\n        ref={setImgRef}\n        src={src}\n        alt={alt}\n        fill\n        sizes={sizes}\n        quality={quality}\n        priority={priority}\n        unoptimized\n        onLoad={(e) => {\n          setIsLoaded(true);\n          setError(false);\n          checkImageComplete(e.currentTarget as HTMLImageElement);\n        }}\n        onError={() => setError(true)}\n        className={cn(\n          'object-cover transition-opacity duration-300 ease-out',\n          isLoaded\n            ? 'opacity-100'\n            : 'opacity-0',\n          className\n        )}\n      />\n    </div>\n  );\n}\n"
+    }
+  ]
+}
