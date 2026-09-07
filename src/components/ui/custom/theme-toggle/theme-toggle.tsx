@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { useViewTransitionTheme } from '@/hooks/use-view-transition-theme';
+import { useViewTransitionTheme } from './use-view-transition-theme';
 
 const easeInArc = [0.34, 1.56, 0.64, 1] as const;
 const easeOutArc = [0.36, 0, 0.66, -0.56] as const;

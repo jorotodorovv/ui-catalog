@@ -32,17 +32,19 @@ When the user asks to publish, export, or add a component or hook to their regis
    - **External NPM Dependencies**: Third-party packages imported (e.g. `framer-motion`, `lucide-react`, `next-themes`).
    - **Custom Styles**: Any CSS classes or keyframes defined in project stylesheets (e.g. `globals.css` or `index.css`).
 
-### Step 2: Transfer Files to `ui-catalog`
-1. Copy or write the component file to:
-   `<ui-catalog-root>/registry/components/<component-name>.tsx`
-2. If companion hooks exist, copy or write them to:
-   `<ui-catalog-root>/registry/hooks/<hook-name>.ts`
-3. If custom CSS exists, add it to:
-   `<ui-catalog-root>/registry/styles/<component-name>.css` and ensure it is also reflected in `<ui-catalog-root>/src/app/globals.css`.
-4. Also copy the component and hooks to `<ui-catalog-root>/src/components/ui/custom/` and `<ui-catalog-root>/src/hooks/` so the catalog web app can render it live.
+### Step 2: Transfer Files into a Self-Contained Component Folder
+All files belonging to the component (UI, companion hook, barrel export, styles) MUST be co-located in a dedicated folder: `<ui-catalog-root>/registry/<component-name>/`.
+
+1. Copy or write the files:
+   - Component: `<ui-catalog-root>/registry/<component-name>/<component-name>.tsx`
+   - Companion hook: `<ui-catalog-root>/registry/<component-name>/<hook-name>.ts`
+   - Barrel export: `<ui-catalog-root>/registry/<component-name>/index.ts` (re-exporting component and hooks)
+   - Custom CSS (if any): `<ui-catalog-root>/registry/<component-name>/styles.css`
+2. **Normalize Imports**: Ensure the component imports its companion hook relatively (e.g. `import { use... } from './use-...'`), ensuring zero path alias breakage across different projects.
+3. Mirror to `<ui-catalog-root>/src/components/ui/custom/<component-name>/` so the catalog preview site can render it live.
 
 ### Step 3: Update `registry.json`
-Read `<ui-catalog-root>/registry.json` and append the new item into the `items` array:
+Read `<ui-catalog-root>/registry.json` and append the new item into the `items` array. Map `target` to a matching self-contained folder so consumer projects receive everything in one clean directory:
 
 ```json
 {
@@ -58,14 +60,19 @@ Read `<ui-catalog-root>/registry.json` and append the new item into the `items` 
   ],
   "files": [
     {
-      "path": "registry/components/<component-name>.tsx",
+      "path": "registry/<component-name>/index.ts",
       "type": "registry:component",
-      "target": "components/ui/custom/<component-name>.tsx"
+      "target": "components/ui/custom/<component-name>/index.ts"
     },
     {
-      "path": "registry/hooks/<hook-name>.ts",
+      "path": "registry/<component-name>/<component-name>.tsx",
+      "type": "registry:component",
+      "target": "components/ui/custom/<component-name>/<component-name>.tsx"
+    },
+    {
+      "path": "registry/<component-name>/<hook-name>.ts",
       "type": "registry:hook",
-      "target": "hooks/<hook-name>.ts"
+      "target": "components/ui/custom/<component-name>/<hook-name>.ts"
     }
   ]
 }

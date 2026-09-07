@@ -18,14 +18,19 @@
       ],
       "files": [
         {
-          "path": "registry/components/theme-toggle.tsx",
+          "path": "registry/theme-toggle/index.ts",
           "type": "registry:component",
-          "target": "components/ui/custom/theme-toggle.tsx"
+          "target": "components/ui/custom/theme-toggle/index.ts"
         },
         {
-          "path": "registry/hooks/use-view-transition-theme.ts",
+          "path": "registry/theme-toggle/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/ui/custom/theme-toggle/theme-toggle.tsx"
+        },
+        {
+          "path": "registry/theme-toggle/use-view-transition-theme.ts",
           "type": "registry:hook",
-          "target": "hooks/use-view-transition-theme.ts"
+          "target": "components/ui/custom/theme-toggle/use-view-transition-theme.ts"
         }
       ]
     }
