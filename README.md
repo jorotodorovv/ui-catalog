@@ -32,7 +32,7 @@ Add your registry to `components.json`:
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "default",
   "registries": {
-    "@joro-ui": "https://joro-ui.vercel.app/r"
+    "@joro-ui": "https://joro-ui.vercel.app/r/{name}.json"
   }
 }
 ```
