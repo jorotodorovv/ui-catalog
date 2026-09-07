@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, X, Layers, Code2, ArrowUpDown } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 export type CategoryFilter = "all" | "components" | "hooks";
 
@@ -22,106 +22,57 @@ export function CatalogToolbar({
   searchQuery,
   onSearchChange,
   totalCount,
-  filteredCount,
   componentsCount,
   hooksCount,
 }: CatalogToolbarProps) {
+  const tabs = [
+    { id: "all" as const, label: "All", count: totalCount },
+    { id: "components" as const, label: "Components", count: componentsCount },
+    { id: "hooks" as const, label: "Hooks", count: hooksCount },
+  ];
+
   return (
-    <section className="border-b border-border/30 bg-muted/10 sticky top-16 z-30 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        {/* Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+    <div className="max-w-7xl mx-auto px-6 pt-6 pb-2 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Category Tabs */}
+      <div className="flex items-center gap-1">
+        {tabs.map((tab) => (
           <button
-            onClick={() => onSelectCategory("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
-              selectedCategory === "all"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/40"
+            key={tab.id}
+            onClick={() => onSelectCategory(tab.id)}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center gap-1.5 ${
+              selectedCategory === tab.id
+                ? "bg-muted text-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
             }`}
           >
-            <Layers className="h-3.5 w-3.5" />
-            All Items
-            <span
-              className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                selectedCategory === "all"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              {totalCount}
+            <span>{tab.label}</span>
+            <span className="text-[10px] text-muted-foreground font-mono">
+              {tab.count}
             </span>
           </button>
-
-          <button
-            onClick={() => onSelectCategory("components")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
-              selectedCategory === "components"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/40"
-            }`}
-          >
-            <Code2 className="h-3.5 w-3.5" />
-            Components
-            <span
-              className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                selectedCategory === "components"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              {componentsCount}
-            </span>
-          </button>
-
-          <button
-            onClick={() => onSelectCategory("hooks")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
-              selectedCategory === "hooks"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/40"
-            }`}
-          >
-            <ArrowUpDown className="h-3.5 w-3.5" />
-            Hooks
-            <span
-              className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                selectedCategory === "hooks"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              {hooksCount}
-            </span>
-          </button>
-        </div>
-
-        {/* Search Input & Item Counter */}
-        <div className="flex items-center gap-3">
-          <div className="relative w-full md:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search catalog..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-8.5 pr-8 py-1.5 rounded-lg text-xs bg-background border border-border/60 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/60 transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => onSearchChange("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5"
-                aria-label="Clear search"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            )}
-          </div>
-
-          <span className="text-xs text-muted-foreground whitespace-nowrap hidden sm:inline-block">
-            {filteredCount} of {totalCount} items
-          </span>
-        </div>
+        ))}
       </div>
-    </section>
+
+      {/* Search Input */}
+      <div className="relative w-full sm:w-64">
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search components..."
+          className="w-full pl-8 pr-8 py-1.5 text-xs rounded-md border border-border/60 bg-background text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:border-foreground/40 transition-colors"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => onSearchChange("")}
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-muted-foreground hover:text-foreground cursor-pointer"
+            aria-label="Clear search"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
