@@ -32,7 +32,7 @@ Add your registry to `components.json`:
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "default",
   "registries": {
-    "@joro-ui": "https://<your-deployed-domain>/r"
+    "@joro-ui": "https://joro-ui.vercel.app/r"
   }
 }
 ```
@@ -44,7 +44,7 @@ npx shadcn add @joro-ui/theme-toggle
 
 Or directly via URL (no config needed):
 ```bash
-npx shadcn add https://<your-deployed-domain>/r/theme-toggle.json
+npx shadcn add https://joro-ui.vercel.app/r/theme-toggle.json
 ```
 
 **What happens automatically:**

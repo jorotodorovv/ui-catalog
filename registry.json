@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "joro-ui",
-  "homepage": "https://ui.yourdomain.com",
+  "homepage": "https://joro-ui.vercel.app",
   "items": [
     {
       "name": "theme-toggle",

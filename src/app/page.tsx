@@ -58,11 +58,11 @@ export default function CatalogPage() {
               <span className="font-semibold text-xs tracking-wider uppercase text-muted-foreground flex items-center gap-1.5">
                 <Terminal className="h-3.5 w-3.5" /> One-Time Setup in components.json
               </span>
-              <CopyButton text={`{\n  "registries": {\n    "@joro-ui": "https://<your-deployed-domain>/r"\n  }\n}`} />
+              <CopyButton text={`{\n  "registries": {\n    "@joro-ui": "https://joro-ui.vercel.app/r"\n  }\n}`} />
             </div>
             <pre className="text-xs font-mono bg-muted/60 p-3 rounded-lg overflow-x-auto text-foreground/90">
 {`"registries": {
-  "@joro-ui": "https://<your-deployed-domain>/r"
+  "@joro-ui": "https://joro-ui.vercel.app/r"
 }`}
             </pre>
           </div>
