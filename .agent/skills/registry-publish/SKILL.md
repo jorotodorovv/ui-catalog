@@ -5,11 +5,17 @@ description: AI-driven workflow to extract, package, and publish React component
 
 # Registry Publish Skill (joro-ui)
 
-This skill guides the AI agent to extract components and hooks from any project repository and publish them into the personal custom shadcn registry located at `/mnt/storage/Code/ui-catalog` (catalog identifier: `joro-ui`).
+This skill guides the AI agent to extract components and hooks from any project repository and publish them into the personal custom shadcn registry (`joro-ui`).
 
-## Target Registry Information
-- **Repository Location**: `/mnt/storage/Code/ui-catalog`
-- **Catalog Name**: `joro-ui`
+## Target Registry Resolution
+
+Before performing file operations, resolve the catalog root directory (`<ui-catalog-root>`) in order of precedence:
+1. **Environment Variable**: Check if `UI_CATALOG_DIR` or `REGISTRY_DIR` is set.
+2. **Current Workspace**: If the active workspace is already `ui-catalog`, use `.`.
+3. **Sibling Directory**: Check for `../ui-catalog` relative to the current project root.
+4. **User Prompt / Discovery**: If not found in previous steps, locate `ui-catalog` or prompt the user for the local path.
+
+- **Catalog Identifier**: `joro-ui`
 - **Consumer Import Command**: `npx shadcn add @joro-ui/<component-name>`
 
 ---
@@ -28,15 +34,15 @@ When the user asks to publish, export, or add a component or hook to their regis
 
 ### Step 2: Transfer Files to `ui-catalog`
 1. Copy or write the component file to:
-   `/mnt/storage/Code/ui-catalog/registry/components/<component-name>.tsx`
+   `<ui-catalog-root>/registry/components/<component-name>.tsx`
 2. If companion hooks exist, copy or write them to:
-   `/mnt/storage/Code/ui-catalog/registry/hooks/<hook-name>.ts`
+   `<ui-catalog-root>/registry/hooks/<hook-name>.ts`
 3. If custom CSS exists, add it to:
-   `/mnt/storage/Code/ui-catalog/registry/styles/<component-name>.css` and ensure it is also reflected in `/mnt/storage/Code/ui-catalog/src/app/globals.css`.
-4. Also copy the component and hooks to `/mnt/storage/Code/ui-catalog/src/components/ui/custom/` and `/mnt/storage/Code/ui-catalog/src/hooks/` so the catalog web app can render it live.
+   `<ui-catalog-root>/registry/styles/<component-name>.css` and ensure it is also reflected in `<ui-catalog-root>/src/app/globals.css`.
+4. Also copy the component and hooks to `<ui-catalog-root>/src/components/ui/custom/` and `<ui-catalog-root>/src/hooks/` so the catalog web app can render it live.
 
 ### Step 3: Update `registry.json`
-Read `/mnt/storage/Code/ui-catalog/registry.json` and append the new item into the `items` array:
+Read `<ui-catalog-root>/registry.json` and append the new item into the `items` array:
 
 ```json
 {
@@ -68,16 +74,16 @@ Read `/mnt/storage/Code/ui-catalog/registry.json` and append the new item into t
 ### Step 4: Build & Validate the Registry
 1. Run the registry compilation command:
    ```bash
-   bun run --cwd=/mnt/storage/Code/ui-catalog build:registry
+   bun run --cwd="<ui-catalog-root>" build:registry
    ```
-2. Verify that `/mnt/storage/Code/ui-catalog/public/r/<component-name>.json` was generated and contains valid JSON with embedded file contents.
+2. Verify that `<ui-catalog-root>/public/r/<component-name>.json` was generated and contains valid JSON with embedded file contents.
 3. Validate the web app build:
    ```bash
-   bun run --cwd=/mnt/storage/Code/ui-catalog build
+   bun run --cwd="<ui-catalog-root>" build
    ```
 
 ### Step 5: Update the Showcase Catalog (Optional / Recommended)
-In `/mnt/storage/Code/ui-catalog/src/app/page.tsx`:
+In `<ui-catalog-root>/src/app/page.tsx`:
 - Add a new showcase card rendering `<YourNewComponent />`.
 - Add code viewer snippets for the component and its companion hook.
 
