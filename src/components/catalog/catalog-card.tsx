@@ -1,20 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { CatalogItem } from "@/lib/catalog";
 import { CopyButton } from "@/components/copy-button";
 import { CatalogItemDemo } from "@/components/catalog/catalog-item-demo";
+import { CodeInspector } from "@/components/catalog/code-inspector";
+import { Eye, Code2 } from "lucide-react";
 
 interface CatalogCardProps {
   item: CatalogItem;
 }
 
 export function CatalogCard({ item }: CatalogCardProps) {
+  const [mode, setMode] = useState<"preview" | "code">("preview");
   const Icon = item.icon;
 
   return (
     <article
+      id={item.id}
       className={`rounded-2xl border border-border/70 bg-card shadow-sm hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden ${
         item.fullWidth ? "lg:col-span-2" : ""
       }`}
@@ -39,17 +43,61 @@ export function CatalogCard({ item }: CatalogCardProps) {
             </div>
           </div>
 
-          {/* Dependencies Badges */}
-          <div className="flex flex-wrap items-center gap-1.5 shrink-0">
-            {item.dependencies.map((dep) => (
-              <span
-                key={dep}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/80 border border-border/40 text-muted-foreground font-mono"
+          <div className="flex items-center gap-2.5 shrink-0 self-start sm:self-center">
+            {/* Dependencies Badges */}
+            <div className="hidden sm:flex flex-wrap items-center gap-1.5 shrink-0">
+              {item.dependencies.map((dep) => (
+                <span
+                  key={dep}
+                  className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/80 border border-border/40 text-muted-foreground font-mono"
+                >
+                  {dep}
+                </span>
+              ))}
+            </div>
+
+            {/* Mode Switcher Pill */}
+            <div className="flex items-center rounded-lg bg-muted/80 p-0.5 border border-border/60 text-xs">
+              <button
+                type="button"
+                onClick={() => setMode("preview")}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all cursor-pointer ${
+                  mode === "preview"
+                    ? "bg-background text-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                title="Interactive Component Preview"
               >
-                {dep}
-              </span>
-            ))}
+                <Eye className="h-3.5 w-3.5" />
+                <span>Preview</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("code")}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all cursor-pointer ${
+                  mode === "code"
+                    ? "bg-background text-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                title="Inspect Usage & Source Code"
+              >
+                <Code2 className="h-3.5 w-3.5" />
+                <span>Code</span>
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Mobile dependencies badges row */}
+        <div className="sm:hidden flex flex-wrap items-center gap-1.5">
+          {item.dependencies.map((dep) => (
+            <span
+              key={dep}
+              className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/80 border border-border/40 text-muted-foreground font-mono"
+            >
+              {dep}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -72,9 +120,13 @@ export function CatalogCard({ item }: CatalogCardProps) {
         </div>
       </div>
 
-      {/* Interactive Demo Playground Canvas */}
-      <div className="p-6 flex-1 flex flex-col justify-center bg-muted/5 relative">
-        <CatalogItemDemo id={item.id} />
+      {/* Dynamic Content Canvas: Preview or Code Inspector */}
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center bg-muted/5 relative">
+        {mode === "preview" ? (
+          <CatalogItemDemo id={item.id} />
+        ) : (
+          <CodeInspector itemId={item.id} />
+        )}
       </div>
     </article>
   );
