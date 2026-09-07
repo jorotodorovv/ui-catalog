@@ -1,0 +1,17 @@
+{
+  "ingredients": [
+    { "value": "Carrot", "label": "Carrot", "emoji": "🥕" },
+    { "value": "Tomato", "label": "Tomato", "emoji": "🍅" },
+    { "value": "Cheese", "label": "Cheese", "emoji": "🧀" },
+    { "value": "Garlic", "label": "Garlic", "emoji": "🧄" },
+    { "value": "Onion", "label": "Onion", "emoji": "🧅" },
+    { "value": "Basil", "label": "Basil", "emoji": "🌿" },
+    { "value": "Pepper", "label": "Bell Pepper", "emoji": "🫑" }
+  ],
+  "platforms": [
+    { "value": "youtube", "label": "YouTube", "emoji": "▶️" },
+    { "value": "instagram", "label": "Instagram", "emoji": "📸" },
+    { "value": "tiktok", "label": "TikTok", "emoji": "🎵" },
+    { "value": "web", "label": "Website", "emoji": "🌐" }
+  ]
+}
