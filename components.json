@@ -16,8 +16,5 @@
     "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
-  },
-  "registries": {
-    "@joro-ui": "https://joro-ui.vercel.app/r/{name}.json"
   }
 }
