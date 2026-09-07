@@ -3,11 +3,23 @@
 import React from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/registry/theme-toggle";
+import { MultiFilterDropdown, MultiFilterOption } from "@/registry/multi-filter-dropdown";
 import { CopyButton } from "@/components/copy-button";
-import { Sparkles, Terminal, ExternalLink } from "lucide-react";
+import { Sparkles, Terminal, ExternalLink, Tag } from "lucide-react";
+
+const SAMPLE_INGREDIENT_OPTIONS: MultiFilterOption[] = [
+  { value: "Carrot", label: "Carrot", emoji: "🥕" },
+  { value: "Tomato", label: "Tomato", emoji: "🍅" },
+  { value: "Cheese", label: "Cheese", emoji: "🧀" },
+  { value: "Garlic", label: "Garlic", emoji: "🧄" },
+  { value: "Onion", label: "Onion", emoji: "🧅" },
+  { value: "Basil", label: "Basil", emoji: "🌿" },
+  { value: "Pepper", label: "Bell Pepper", emoji: "🫑" },
+];
 
 export default function CatalogPage() {
-  const cliCommand = "npx shadcn add @joro-ui/theme-toggle";
+  const themeToggleCommand = "npx shadcn add @joro-ui/theme-toggle";
+  const multiFilterCommand = "npx shadcn add @joro-ui/multi-filter-dropdown";
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20">
@@ -76,7 +88,7 @@ export default function CatalogPage() {
             <h2 className="text-2xl font-bold tracking-tight">Components</h2>
             <p className="text-sm text-muted-foreground">Ready-to-use registry items</p>
           </div>
-          <span className="text-xs text-muted-foreground">1 component available</span>
+          <span className="text-xs text-muted-foreground">2 components available</span>
         </div>
 
         {/* Theme Toggle Component Card */}
@@ -113,7 +125,7 @@ export default function CatalogPage() {
           <div className="px-6 py-3 bg-muted/40 border-b border-border/40 flex items-center justify-between gap-4 font-mono text-xs">
             <div className="flex items-center gap-2 overflow-x-auto">
               <span className="text-muted-foreground select-none">$</span>
-              <span className="text-foreground font-medium">{cliCommand}</span>
+              <span className="text-foreground font-medium">{themeToggleCommand}</span>
             </div>
             <div className="flex items-center gap-2">
               <Link
@@ -123,7 +135,7 @@ export default function CatalogPage() {
               >
                 json <ExternalLink className="h-3 w-3" />
               </Link>
-              <CopyButton text={cliCommand} />
+              <CopyButton text={themeToggleCommand} />
             </div>
           </div>
 
@@ -136,6 +148,78 @@ export default function CatalogPage() {
               </div>
               <div className="p-4 rounded-2xl bg-card border border-border/40 shadow-sm">
                 <ThemeToggle />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Multi-Filter Dropdown Component Card */}
+        <div className="rounded-2xl border border-border/60 bg-card shadow-sm overflow-hidden">
+          {/* Card Header */}
+          <div className="p-6 border-b border-border/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/10">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-semibold tracking-tight">Multi-Filter Dropdown</h3>
+                <span className="text-[11px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-mono">
+                  registry:component
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Grid-friendly square card multi-select popover with stacked badge preview, emojis, search, and clear trigger.
+              </p>
+            </div>
+
+            {/* Dependency Badges */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary border border-border/40 text-muted-foreground font-mono">
+                button
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary border border-border/40 text-muted-foreground font-mono">
+                popover
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary border border-border/40 text-muted-foreground font-mono">
+                command
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary border border-border/40 text-muted-foreground font-mono">
+                lucide-react
+              </span>
+            </div>
+          </div>
+
+          {/* Quick CLI Command Bar */}
+          <div className="px-6 py-3 bg-muted/40 border-b border-border/40 flex items-center justify-between gap-4 font-mono text-xs">
+            <div className="flex items-center gap-2 overflow-x-auto">
+              <span className="text-muted-foreground select-none">$</span>
+              <span className="text-foreground font-medium">{multiFilterCommand}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/r/multi-filter-dropdown.json"
+                target="_blank"
+                className="text-muted-foreground hover:text-foreground text-[11px] flex items-center gap-1 underline underline-offset-2"
+              >
+                json <ExternalLink className="h-3 w-3" />
+              </Link>
+              <CopyButton text={multiFilterCommand} />
+            </div>
+          </div>
+
+          {/* Interactive Live Playground */}
+          <div className="p-8">
+            <div className="h-64 rounded-xl border border-dashed border-border/80 flex flex-col items-center justify-center gap-4 bg-muted/10 relative">
+              <div className="text-center space-y-1">
+                <p className="text-sm font-medium">Interactive Multi-Select Card</p>
+                <p className="text-xs text-muted-foreground">Select multiple ingredients, view stacked emojis, or use the clear button</p>
+              </div>
+              <div className="w-36">
+                <MultiFilterDropdown
+                  title="Ingredients"
+                  options={SAMPLE_INGREDIENT_OPTIONS}
+                  defaultValues={["Carrot", "Tomato"]}
+                  icon={Tag}
+                  showSearch={true}
+                  placeholder="Search ingredient..."
+                />
               </div>
             </div>
           </div>

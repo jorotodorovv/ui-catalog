@@ -33,6 +33,37 @@
           "target": "components/ui/custom/theme-toggle/use-view-transition-theme.ts"
         }
       ]
+    },
+    {
+      "name": "multi-filter-dropdown",
+      "type": "registry:component",
+      "title": "Multi-Filter Dropdown",
+      "description": "Grid-friendly square card multi-select popover with stacked badge preview, emojis, search, and clear trigger.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "popover",
+        "command"
+      ],
+      "files": [
+        {
+          "path": "registry/multi-filter-dropdown/index.ts",
+          "type": "registry:component",
+          "target": "components/ui/custom/multi-filter-dropdown/index.ts"
+        },
+        {
+          "path": "registry/multi-filter-dropdown/multi-filter-dropdown.tsx",
+          "type": "registry:component",
+          "target": "components/ui/custom/multi-filter-dropdown/multi-filter-dropdown.tsx"
+        },
+        {
+          "path": "registry/multi-filter-dropdown/use-multi-filter.ts",
+          "type": "registry:hook",
+          "target": "components/ui/custom/multi-filter-dropdown/use-multi-filter.ts"
+        }
+      ]
     }
   ]
 }
