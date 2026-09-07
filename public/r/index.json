@@ -1,0 +1,28 @@
+[
+  {
+    "name": "theme-toggle",
+    "type": "registry:component",
+    "title": "Theme Toggle",
+    "description": "Smooth View Transitions API theme toggle with circular clip-path reveal and arc motion.",
+    "dependencies": [
+      "lucide-react",
+      "next-themes",
+      "framer-motion"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "files": [
+      {
+        "path": "registry/components/theme-toggle.tsx",
+        "type": "registry:component",
+        "target": "components/ui/custom/theme-toggle.tsx"
+      },
+      {
+        "path": "registry/hooks/use-view-transition-theme.ts",
+        "type": "registry:hook",
+        "target": "hooks/use-view-transition-theme.ts"
+      }
+    ]
+  }
+]
