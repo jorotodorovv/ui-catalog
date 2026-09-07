@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -30,29 +30,23 @@ export function InteractiveImage({
   isGenerating,
   priority = false,
 }: InteractiveImageProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(false);
+  const [loadedSrc, setLoadedSrc] = useState<string | null | undefined>(null);
+  const [errorSrc, setErrorSrc] = useState<string | null | undefined>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
+  const isLoaded = Boolean(src && loadedSrc === src);
+  const error = Boolean(src && errorSrc === src);
+
   const checkImageComplete = useCallback((img: HTMLImageElement | null) => {
-    if (img && img.complete && img.naturalWidth > 0) {
-      setIsLoaded(true);
+    if (img && img.complete && img.naturalWidth > 0 && src) {
+      setLoadedSrc(src);
     }
-  }, []);
+  }, [src]);
 
   const setImgRef = useCallback((node: HTMLImageElement | null) => {
     imgRef.current = node;
     checkImageComplete(node);
   }, [checkImageComplete]);
-
-  useEffect(() => {
-    setIsLoaded(false);
-    setError(false);
-
-    if (imgRef.current) {
-      checkImageComplete(imgRef.current);
-    }
-  }, [src, checkImageComplete]);
 
   const sizes = width
     ? `(max-width: 768px) 100vw, ${width}px`
@@ -108,12 +102,12 @@ export function InteractiveImage({
         quality={quality}
         priority={priority}
         unoptimized
-        onLoad={(e) => {
-          setIsLoaded(true);
-          setError(false);
-          checkImageComplete(e.currentTarget as HTMLImageElement);
+        onLoad={() => {
+          setLoadedSrc(src);
         }}
-        onError={() => setError(true)}
+        onError={() => {
+          setErrorSrc(src);
+        }}
         className={cn(
           'object-cover transition-opacity duration-300 ease-out',
           isLoaded
