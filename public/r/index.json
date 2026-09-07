@@ -27,6 +27,11 @@
         "path": "registry/theme-toggle/use-view-transition-theme.ts",
         "type": "registry:hook",
         "target": "components/ui/custom/theme-toggle/use-view-transition-theme.ts"
+      },
+      {
+        "path": "registry/theme-toggle/view-transitions.css",
+        "type": "registry:component",
+        "target": "components/ui/custom/theme-toggle/view-transitions.css"
       }
     ]
   },
