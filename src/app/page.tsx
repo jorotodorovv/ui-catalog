@@ -35,7 +35,7 @@ export default function CatalogPage() {
   const hooksCount = CATALOG_ITEMS.filter((i) => i.category === "hooks").length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="relative min-h-screen bg-background text-foreground flex flex-col overflow-x-clip">
       <CatalogHeader />
       <CatalogHero />
       <CatalogToolbar
