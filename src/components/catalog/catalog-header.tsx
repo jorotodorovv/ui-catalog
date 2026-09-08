@@ -45,7 +45,7 @@ export function CatalogHeader() {
         isHeaderVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isScrolled
-          ? "border-b border-border/50 bg-background/80 backdrop-blur-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)] supports-[backdrop-filter]:bg-background/70"
+          ? "border-b border-border/60 bg-background/80 backdrop-blur-xl shadow-xs supports-[backdrop-filter]:bg-background/70"
           : "border-b border-border/20 bg-background/50 backdrop-blur-md"
       }`}
     >
@@ -53,19 +53,15 @@ export function CatalogHeader() {
         {/* Brand Logo & Title */}
         <Link
           href="/"
-          className="flex items-center gap-3 group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring rounded-lg py-1 px-1 -ml-1 transition-transform"
+          className="flex items-center gap-2.5 group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring rounded-lg py-1 px-1 -ml-1 transition-opacity hover:opacity-90"
           aria-label={`${REGISTRY_NAME} home`}
         >
-          <BrandLogo size={34} />
+          <BrandLogo size={30} />
           <div className="flex items-center gap-2">
-            <span className="font-semibold tracking-tight text-sm text-foreground group-hover:text-primary transition-colors">
+            <span className="font-semibold tracking-tight text-sm text-foreground">
               {REGISTRY_NAME}
             </span>
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border border-border/60 bg-muted/60 text-muted-foreground shadow-2xs">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 dark:bg-emerald-400" />
-              </span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-muted text-muted-foreground border border-border/50">
               registry
             </span>
           </div>
@@ -76,10 +72,10 @@ export function CatalogHeader() {
           <Link
             href="/r/index.json"
             target="_blank"
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-all font-mono px-2.5 py-1.5 rounded-lg border border-border/40 hover:border-border/80 bg-muted/30 hover:bg-muted/70 shadow-2xs group"
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors font-mono px-2.5 py-1.5 rounded-lg border border-border/40 hover:border-border/80 bg-muted/30 hover:bg-muted/60"
             title="View registry schema JSON"
           >
-            <Code2 className="size-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+            <Code2 className="size-3.5 text-muted-foreground" />
             <span>registry.json</span>
           </Link>
 
@@ -89,9 +85,9 @@ export function CatalogHeader() {
             rel="noreferrer"
             aria-label="GitHub Repository"
             title="View on GitHub"
-            className="h-10 w-10 rounded-full hover:bg-secondary border border-border/30 shadow-md flex items-center justify-center active:scale-95 transition-all text-muted-foreground hover:text-foreground relative group"
+            className="h-9 w-9 rounded-md hover:bg-secondary border border-border/40 flex items-center justify-center active:scale-95 transition-all text-muted-foreground hover:text-foreground"
           >
-            <GithubIcon className="size-4.5 transition-transform group-hover:scale-110" />
+            <GithubIcon className="size-4" />
           </Link>
 
           <ThemeToggle />
