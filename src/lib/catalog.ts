@@ -72,3 +72,4 @@ export const CATALOG_ITEMS: CatalogItem[] = registryData.items.map((item) => {
 
 export const REGISTRY_NAME = registryData.name;
 export const REGISTRY_HOMEPAGE = registryData.homepage;
+export const GITHUB_REPO_URL = "https://github.com/jorotodorovv/ui-catalog";
